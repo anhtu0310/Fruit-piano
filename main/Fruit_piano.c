@@ -13,17 +13,17 @@
 #include "driver/gpio.h"
 #include "driver/touch_pad.h"
 
-#define TOUCH_BUTTON_NUM 8
+#define TOUCH_BUTTON_NUM 14
 #define MAX_HOLD_KEYS 6
 // #define TOUCH_CHANGE_CONFIG 0
 
 static const touch_pad_t button[TOUCH_BUTTON_NUM] = {
-    // TOUCH_PAD_NUM1,
-    // TOUCH_PAD_NUM2,
-    // TOUCH_PAD_NUM3,
-    // TOUCH_PAD_NUM4,
-    // TOUCH_PAD_NUM5,
-    // TOUCH_PAD_NUM6,
+    TOUCH_PAD_NUM1,
+    TOUCH_PAD_NUM2,
+    TOUCH_PAD_NUM3,
+    TOUCH_PAD_NUM4,
+    TOUCH_PAD_NUM5,
+    TOUCH_PAD_NUM6,
     TOUCH_PAD_NUM7,
     TOUCH_PAD_NUM8,
     TOUCH_PAD_NUM9,
@@ -33,7 +33,7 @@ static const touch_pad_t button[TOUCH_BUTTON_NUM] = {
     TOUCH_PAD_NUM13,
     TOUCH_PAD_NUM14};
 
-uint8_t keycodes[8] = {
+uint8_t keycodes[TOUCH_BUTTON_NUM] = {
     HID_KEY_Q,
     HID_KEY_W,
     HID_KEY_E,
@@ -41,16 +41,21 @@ uint8_t keycodes[8] = {
     HID_KEY_T,
     HID_KEY_Y,
     HID_KEY_U,
-    HID_KEY_I
+    HID_KEY_I,
+
+    HID_KEY_O,
+    HID_KEY_P,
+    HID_KEY_Z,
+    HID_KEY_X,
+    HID_KEY_C,
+    HID_KEY_V
+
     // {HID_KEY_O},
     // {HID_KEY_E},
 };
 
-// uint16_t key_array_bits = 0;
-// uint16_t last_key_array_bits = 0;
-
+\
 static void tp_example_read_task(void *pvParameter)
-// void read_touch(void)
 {
 
     uint8_t keys_pressed[MAX_HOLD_KEYS];
@@ -117,7 +122,9 @@ static void tp_example_read_task(void *pvParameter)
 //     last_keys_pressed_ck = keys_pressed_ck;
 // }
 
-#define APP_BUTTON (GPIO_NUM_0) // Use BOOT signal by default
+// #define APP_BUTTON (GPIO_NUM_0) // Use BOOT signal by default
+#define LED_BLUE (GPIO_NUM_15) // Use BOOT signal by default
+
 static const char *TAG = "piano";
 
 /************* TinyUSB descriptors ****************/
@@ -220,14 +227,14 @@ void app_main(void)
     xTaskCreate(&tp_example_read_task, "touch_pad_read_task", 4096, NULL, 5, NULL);
 
     // Initialize button that will trigger HID reports
-    const gpio_config_t boot_button_config = {
-        .pin_bit_mask = BIT64(APP_BUTTON),
-        .mode = GPIO_MODE_INPUT,
+    const gpio_config_t led_pin_config = {
+        .pin_bit_mask = BIT64(LED_BLUE),
+        .mode = GPIO_MODE_OUTPUT,
         .intr_type = GPIO_INTR_DISABLE,
-        .pull_up_en = true,
+        .pull_up_en = false,
         .pull_down_en = false,
     };
-    ESP_ERROR_CHECK(gpio_config(&boot_button_config));
+    gpio_config(&led_pin_config);
 
     ESP_LOGI(TAG, "USB initialization");
     const tinyusb_config_t tusb_cfg = {
@@ -239,7 +246,7 @@ void app_main(void)
 
     ESP_ERROR_CHECK(tinyusb_driver_install(&tusb_cfg));
     ESP_LOGI(TAG, "USB initialization DONE");
-
+    gpio_set_level(LED_BLUE,1);
     // while (1)
     // {
     //     if (tud_mounted())
