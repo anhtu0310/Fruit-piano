@@ -3,78 +3,42 @@
 
 # Fruit Piano 
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+A simple 14 notes piano keyboard made from fruits.
 
-Human interface devices (HID) are one of the most common USB devices, it is implemented in various devices such as keyboards, mice, game controllers, sensors and alphanumeric display devices.
-In this example, we implement USB keyboard and mouse.
-Upon connection to USB host (PC), the example application will sent 'key a/A pressed & released' events and move mouse in a square trajectory. To send these HID reports again, press the BOOT button, that is present on most ESP development boards (GPIO0).
+Inspired by Makey Makey fruit piano with some improvements of having 14 notes (compare to 6),and playing with both hands without wearing any bracelets
+Instead of using ADC in the ATmega32u4 like Makey Makey, this project utilize the built-in touch function and the advance touch processing of the affordable esp32s2 micro-controller.
+Similar to the Makey Makey fruit piano this piano will act as a normal HID keyboard, and sending keystrokes to the computer, and a piano website or software on the computer will translate those keystrokes to notes of the piano  
 
-As a USB stack, a TinyUSB component is used.
-
-## How to use example
+## Keymap
+This keymap based on notes from the [Online Pianist's virtual piano](https://www.onlinepianist.com/virtual-piano).
+| TOUCH CHANNEL | GPIO | Keystroke |
+| ----------------- | -------- | -------- |
+| TOUCH_PAD_1| GPIO_1| Q |
+| TOUCH_PAD_2| GPIO_2| W |
+| TOUCH_PAD_3| GPIO_3| E |
+| TOUCH_PAD_4| GPIO_4| R |
+| TOUCH_PAD_5| GPIO_5| T |
+| TOUCH_PAD_5| GPIO_6| Y |
+| TOUCH_PAD_7| GPIO_7| U |
+| TOUCH_PAD_8| GPIO_8| I |
+| TOUCH_PAD_9| GPIO_9| O |
+| TOUCH_PAD_10| GPIO_10| P |
+| TOUCH_PAD_11| GPIO_11| Z |
+| TOUCH_PAD_12| GPIO_12| X |
+| TOUCH_PAD_13| GPIO_13| C |
+| TOUCH_PAD_14| GPIO_14| V |
 
 ### Hardware Required
 
-Any ESP board that have USB-OTG supported.
+Any ESP-S2 board and dupont wires to connect the fruits to the GPIO
+In this case we use the [WEMOS S2 Mini](https://www.wemos.cc/en/latest/s2/s2_mini.html)
+And standard Female to Male dupont wires
 
-#### Pin Assignment
+### Flashing firmware
+Flashing can be done with any tools the supports ESP32 with the bin file from the release tag, this bin file has already contains bootloader, partition table and app so it should be flash at address **0x00**
 
-_Note:_ In case your board doesn't have micro-USB connector connected to USB-OTG peripheral, you may have to DIY a cable and connect **D+** and **D-** to the pins listed below.
+You can use the [Online ESPTool](https://espressif.github.io/esptool-js/) to flash the firmware  
 
-See common pin assignments for USB Device examples from [upper level](../../README.md#common-pin-assignments).
+![image](./resources/Pictures/flashing.png)
 
-Boot signal (GPIO0) is used to send HID reports to USB host.
-
-### Build and Flash
-
-Build the project and flash it to the board, then run monitor tool to view serial output:
-
-```bash
-idf.py -p PORT flash monitor
-```
-
-(Replace PORT with the name of the serial port to use.)
-
-(To exit the serial monitor, type ``Ctrl-]``.)
-
-See the Getting Started Guide for full steps to configure and use ESP-IDF to build projects.
-
-## Example Output
-
-After the flashing you should see the output at idf monitor:
-
-```
-I (290) cpu_start: Starting scheduler on PRO CPU.
-I (0) cpu_start: Starting scheduler on APP CPU.
-I (310) example: USB initialization
-I (310) tusb_desc:
-┌─────────────────────────────────┐
-│  USB Device Descriptor Summary  │
-├───────────────────┬─────────────┤
-│bDeviceClass       │ 0           │
-├───────────────────┼─────────────┤
-│bDeviceSubClass    │ 0           │
-├───────────────────┼─────────────┤
-│bDeviceProtocol    │ 0           │
-├───────────────────┼─────────────┤
-│bMaxPacketSize0    │ 64          │
-├───────────────────┼─────────────┤
-│idVendor           │ 0x303a      │
-├───────────────────┼─────────────┤
-│idProduct          │ 0x4004      │
-├───────────────────┼─────────────┤
-│bcdDevice          │ 0x100       │
-├───────────────────┼─────────────┤
-│iManufacturer      │ 0x1         │
-├───────────────────┼─────────────┤
-│iProduct           │ 0x2         │
-├───────────────────┼─────────────┤
-│iSerialNumber      │ 0x3         │
-├───────────────────┼─────────────┤
-│bNumConfigurations │ 0x1         │
-└───────────────────┴─────────────┘
-I (480) TinyUSB: TinyUSB Driver installed
-I (480) example: USB initialization DONE
-I (2490) example: Sending Keyboard report
-I (3040) example: Sending Mouse report
-```
+After successfully flashed the firmware like the upper picture, after reset the light on the kit will light up, signaling the firmware is running

@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: Unlicense OR CC0-1.0
  */
-// #include <stdio.h>
 #include <stdlib.h>
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
@@ -247,18 +246,5 @@ void app_main(void)
     ESP_ERROR_CHECK(tinyusb_driver_install(&tusb_cfg));
     ESP_LOGI(TAG, "USB initialization DONE");
     gpio_set_level(LED_BLUE,1);
-    // while (1)
-    // {
-    //     if (tud_mounted())
-    //     {
-    //         static bool send_hid_data = true;
-    //         if (send_hid_data)
-    //         {
-    //             app_send_hid_demo();
-    //         }
-    //         send_hid_data = !gpio_get_level(APP_BUTTON);
-    //     }
 
-    //     // vTaskDelay(pdMS_TO_TICKS(50));
-    // }
 }
