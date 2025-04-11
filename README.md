@@ -1,7 +1,7 @@
 | Supported Targets | ESP32-S2 | ESP32-S3 |
 | ----------------- | -------- | -------- |
 
-# TinyUSB Human Interface Device Example
+# Fruit Piano 
 
 (See the README.md file in the upper level 'examples' directory for more information about examples.)
 
