@@ -1,5 +1,5 @@
-| Supported Targets | ESP32-S2 | ESP32-S3 |
-| ----------------- | -------- | -------- |
+| Supported Targets | ESP32-S2 |
+| ----------------- | -------- |
 
 # Fruit Piano 
 
@@ -7,7 +7,9 @@ A simple 14 notes piano keyboard made from fruits.
 
 Inspired by Makey Makey fruit piano with some improvements of having 14 notes (compare to 6),and playing with both hands without wearing any bracelets
 Instead of using ADC in the ATmega32u4 like Makey Makey, this project utilize the built-in touch function and the advance touch processing of the affordable esp32s2 micro-controller.
-Similar to the Makey Makey fruit piano this piano will act as a normal HID keyboard, and sending keystrokes to the computer, and a piano website or software on the computer will translate those keystrokes to notes of the piano  
+Similar to the Makey Makey fruit piano this piano will act as a normal HID keyboard, and sending keystrokes to the computer, and a piano website or software on the computer will translate those keystrokes to notes of the piano.
+Fruit piano at Ha Giang science fair 2023:
+![image](./resources/Pictures/HG23.png)
 
 ## Keymap
 This keymap based on notes from the [Online Pianist's virtual piano](https://www.onlinepianist.com/virtual-piano).
